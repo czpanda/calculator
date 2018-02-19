@@ -1,25 +1,24 @@
 public class Calculator {
 
-    private int value;
+    private static boolean solutionExists(String solutionPath, int movesLeft, int currentValue, int solution) {
+        if (currentValue == solution) {
+            System.out.println(solutionPath);
+            return true;
+        }
 
-    Calculator(int initialValue) {
-        this.value = initialValue;
+        if (movesLeft == 0) {
+            return false;
+        }
+
+        return  Calculator.solutionExists(solutionPath + " - 4", movesLeft - 1, currentValue - 4, solution) ||
+                Calculator.solutionExists(solutionPath + " * - 4", movesLeft - 1, currentValue * -4, solution) ||
+                Calculator.solutionExists(solutionPath + " * - 1", movesLeft - 1, currentValue * -1, solution) ||
+                (currentValue % 3 == 0 && Calculator.solutionExists(solutionPath + " / 3", movesLeft - 1, currentValue / 3, solution)) ||
+                (currentValue % 8 == 0 && Calculator.solutionExists(solutionPath + " / 8", movesLeft - 1, currentValue / 8, solution));
+
     }
 
-    public int getValue() {
-        return value;
+    public static boolean solutionExists(int possibleMovesCount, int startingValue, int solution) {
+        return Calculator.solutionExists(Integer.toString(startingValue), possibleMovesCount, startingValue, solution);
     }
-
-    public void subtract(int amount) {
-        this.value = this.value - amount;
-    }
-
-    public void mulitple(int amount) {
-        this.value = this.value * amount;
-    }
-
-    public void divide(int amount) {
-        this.value = this.value / amount;
-    }
-
 }
